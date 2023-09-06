@@ -1,0 +1,19 @@
+@import "./colors.scss";
+
+:root {
+    --primary-background: $primary-background;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    font-size: 14px;
+    padding: 36px;
+    background-color: $primary-background;
+    min-height: 100vh;
+    font-weight: normal;
+    font-weight: 300;
+}
