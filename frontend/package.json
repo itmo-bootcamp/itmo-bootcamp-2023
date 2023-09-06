@@ -11,7 +11,13 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.20",
+    "@mantine/hooks": "^6.0.20",
+    "@tabler/icons": "^2.33.0",
+    "@tabler/icons-react": "^2.33.0",
     "@tanstack/react-query": "^4.29.19",
+    "classnames": "^2.3.2",
     "npm": "9.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
