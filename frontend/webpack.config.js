@@ -8,7 +8,6 @@ module.exports = {
   entry: {
     app: [
       path.resolve(__dirname, 'src', 'index.tsx'),
-      path.resolve(__dirname, 'src', 'styles/colors.scss'),
       path.resolve(__dirname, 'src', 'styles/index.scss'),
     ],
   },
@@ -57,7 +56,8 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               additionalData: `
-@import "styles/variables.scss";`,
+@import "styles/variables.scss";
+@import "styles/colors.scss";\n`,
             },
           },
         ],

@@ -7,6 +7,10 @@
     position: relative;
 }
 
+.inputWrapper {
+    margin: 0;
+}
+
 .input {
     height: 60px;
     position: relative;
@@ -14,7 +18,9 @@
 
 .errorMessage {
     font-size: 14px;
-    display: none;
+    position: absolute;
+    left: 0px;
+    bottom: -12px;
 }
 
 .button {

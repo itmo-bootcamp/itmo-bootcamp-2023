@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Divider, Flex, TextInput } from '@mantine/core';
-import { IconAnalyze, IconExternalLink, IconX } from '@tabler/icons-react';
+import { IconAnalyze, IconExternalLink } from '@tabler/icons-react';
 import classNames from 'classnames';
 import { z } from 'zod';
 
@@ -57,21 +57,24 @@ const VacancyLinkInput = ({ className }: Props) => {
         gap="md"
         className={styles.linkInput}
       >
-        <TextInput
-          placeholder="Введите ссылку на вакансию..."
-          error={validationError}
-          variant="unstyled"
-          icon={<IconExternalLink />}
-          onChange={handleLinkChange}
-          value={link}
-          size="xl"
-          classNames={{
-            root: styles.inputWrapper,
-            input: styles.input,
-            error: styles.errorMessage,
-          }}
+        <Flex direction="column" className={styles.inputWrapper}>
+          <TextInput
+            placeholder="Введите ссылку на вакансию..."
+            error={validationError}
+            variant="unstyled"
+            icon={<IconExternalLink />}
+            onChange={handleLinkChange}
+            value={link}
+            size="xl"
+            classNames={{
+              wrapper: styles.inputWrapper,
+              input: styles.input,
+              error: styles.errorMessage,
+            }}
 
-        />
+          />
+          <Divider my="sm" variant="dashed" />
+        </Flex>
         <Button
           leftIcon={<IconAnalyze />}
           className={styles.button}
@@ -80,7 +83,6 @@ const VacancyLinkInput = ({ className }: Props) => {
         Анализировать
         </Button>
       </Flex>
-      <Divider my="sm" variant="dashed" />
     </Flex>
   );
 };
