@@ -1,39 +1,33 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { Button, Divider, Flex, TextInput } from '@mantine/core';
-import { IconAnalyze, IconExternalLink, IconX } from '@tabler/icons-react';
+import { IconExternalLink } from '@tabler/icons-react';
 import classNames from 'classnames';
-import { z } from 'zod';
+
+import { validateLink } from 'shared/utils/validateLink';
 
 import styles from './styles.scss';
 
 interface Props {
   className?: string;
+  onLinkSubmit: (link: string) => void;
 }
 
-const validationSchema = z.
-  string({
-    invalid_type_error: 'Ссылка должна быть строкой',
-  })
-  .url({ message: 'Невалидная ссылка' })
-  .includes('https://hh.ru', {
-    message: 'Адрес должен начинаться с https://hh.ru',
-  });
-
-const VacancyLinkInput = ({ className }: Props) => {
-  const [link, setLink] = useState('');
+const VacancyLinkInput = ({ className, onLinkSubmit }: Props) => {
+  const [linkValue, setLinkValue] = useState('');
   const [validationError, setValidationError] = useState<undefined | string>();
 
   const handleLinkChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { value } = target;
-    setLink(value);
+    setLinkValue(value);
   };
 
-  const submit = () => {
-    const { success, error } = validationSchema.safeParse(link);
+  const onSubmit = () => {
+    const { success, error } = validateLink(linkValue);
 
     if (success) {
       // api call
-      return setValidationError(undefined);
+      setValidationError(undefined);
+      return onLinkSubmit(linkValue);
     }
 
     const formattedError = error.issues[0].message;
@@ -41,10 +35,10 @@ const VacancyLinkInput = ({ className }: Props) => {
   };
 
   useEffect(() => {
-    if (!link.trim()) {
+    if (!linkValue.trim()) {
       return setValidationError(undefined);
     }
-  }, [link]);
+  }, [linkValue]);
 
   return (
     <Flex
@@ -57,30 +51,33 @@ const VacancyLinkInput = ({ className }: Props) => {
         gap="md"
         className={styles.linkInput}
       >
-        <TextInput
-          placeholder="Введите ссылку на вакансию..."
-          error={validationError}
-          variant="unstyled"
-          icon={<IconExternalLink />}
-          onChange={handleLinkChange}
-          value={link}
-          size="xl"
-          classNames={{
-            root: styles.inputWrapper,
-            input: styles.input,
-            error: styles.errorMessage,
-          }}
+        <Flex direction="column" className={styles.inputWrapper}>
+          <TextInput
+            placeholder="Введите ссылку на вакансию..."
+            error={validationError}
+            variant="unstyled"
+            icon={<IconExternalLink />}
+            onChange={handleLinkChange}
+            value={linkValue}
+            size="xl"
+            classNames={{
+              wrapper: styles.inputWrapper,
+              input: styles.input,
+              error: styles.errorMessage,
+            }}
 
-        />
+          />
+          <Divider my="sm" variant="dashed" />
+        </Flex>
         <Button
-          leftIcon={<IconAnalyze />}
           className={styles.button}
-          onClick={submit}
+          size="xl"
+          variant="light"
+          onClick={onSubmit}
         >
-        Анализировать
+        Отправить
         </Button>
       </Flex>
-      <Divider my="sm" variant="dashed" />
     </Flex>
   );
 };

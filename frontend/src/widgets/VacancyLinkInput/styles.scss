@@ -5,6 +5,11 @@
 .inputWrapper {
     width: 100%;
     position: relative;
+    top: 6px;
+}
+
+.inputWrapper {
+    margin: 0;
 }
 
 .input {
@@ -14,12 +19,14 @@
 
 .errorMessage {
     font-size: 14px;
-    display: none;
+    position: absolute;
+    left: 0px;
+    bottom: -12px;
 }
 
 .button {
+    font-weight: 500;
     height: 60px;
-    width: 200px;
 }
 
 .linkInput {
