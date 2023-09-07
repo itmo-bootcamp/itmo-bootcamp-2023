@@ -4,13 +4,24 @@
 
 .inputWrapper {
     width: 100%;
+    position: relative;
 }
 
 .input {
     height: 60px;
+    position: relative;
+}
+
+.errorMessage {
+    font-size: 14px;
+    display: none;
 }
 
 .button {
     height: 60px;
     width: 200px;
+}
+
+.linkInput {
+    width: 100%;
 }
