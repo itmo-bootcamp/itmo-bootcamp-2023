@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+    frontend:
+        env_file: .env
+        container_name: frontend
+        build:
+            context: frontend
+            target: production
+        ports:
+            - 2380:80
+        environment:
+            - ${API_HOST}
+        restart: always
+        pull_policy: always
