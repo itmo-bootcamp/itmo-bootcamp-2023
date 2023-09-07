@@ -30,7 +30,7 @@ const VacancyLinkInput = ({ className }: Props) => {
         leftIcon={<IconAnalyze />}
         className={styles.button}
       >
-        Вперед
+        Анализировать
       </Button>
     </Flex>
   );
