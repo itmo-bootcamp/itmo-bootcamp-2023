@@ -1,20 +1,21 @@
 import React from 'react';
+import { QueryClient,QueryClientProvider } from 'react-query';
 import { MantineProvider } from '@mantine/core';
 
-import VacancyLinkPage from 'pages/VacancyLinkPage/VacancyLinkPage';
+import RouterPage from 'pages/RouterPage';
 
-import styles from './styles.scss';
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <MantineProvider theme={{
-      fontFamily: 'Open Sans',
-      colorScheme: 'dark',
-    }}>
-      <div className={styles.appWrapper}>
-        <VacancyLinkPage />
-      </div>
-    </MantineProvider>
+    <QueryClientProvider client={queryClient}>
+      <MantineProvider theme={{
+        fontFamily: 'Open Sans',
+        colorScheme: 'dark',
+      }}>
+        <RouterPage />
+      </MantineProvider>
+    </QueryClientProvider>
   );
 };
 

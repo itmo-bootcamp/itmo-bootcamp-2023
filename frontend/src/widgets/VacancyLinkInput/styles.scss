@@ -5,6 +5,7 @@
 .inputWrapper {
     width: 100%;
     position: relative;
+    top: 6px;
 }
 
 .inputWrapper {
@@ -24,8 +25,8 @@
 }
 
 .button {
+    font-weight: 500;
     height: 60px;
-    width: 200px;
 }
 
 .linkInput {
