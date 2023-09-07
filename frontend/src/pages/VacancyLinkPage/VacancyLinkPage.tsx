@@ -1,13 +1,17 @@
 import React from 'react';
+import { Stack } from '@mantine/core';
 import VacancyLinkInput from 'widgets/VacancyLinkInput/VacancyLinkInput';
+
+import { Loader } from 'shared/ui';
 
 import styles from './styles.scss';
 
 const VacancyLinkPage = () => {
   return (
-    <div className={styles.page}>
+    <Stack spacing="xl" className={styles.page}>
       <VacancyLinkInput className={styles.linkInputWidget} />
-    </div>
+      <Loader title="Собираем данные о навыках..." />
+    </Stack>
   );
 };
 

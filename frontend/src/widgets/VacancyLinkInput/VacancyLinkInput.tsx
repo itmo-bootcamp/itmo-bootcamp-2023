@@ -1,7 +1,8 @@
-import React from 'react';
-import { Button, Flex,Input } from '@mantine/core';
-import { IconAnalyze, IconExternalLink } from '@tabler/icons-react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Button, Divider, Flex, TextInput } from '@mantine/core';
+import { IconAnalyze, IconExternalLink, IconX } from '@tabler/icons-react';
 import classNames from 'classnames';
+import { z } from 'zod';
 
 import styles from './styles.scss';
 
@@ -9,29 +10,77 @@ interface Props {
   className?: string;
 }
 
+const validationSchema = z.
+  string({
+    invalid_type_error: 'Ссылка должна быть строкой',
+  })
+  .url({ message: 'Невалидная ссылка' })
+  .includes('https://hh.ru', {
+    message: 'Адрес должен начинаться с https://hh.ru',
+  });
+
 const VacancyLinkInput = ({ className }: Props) => {
+  const [link, setLink] = useState('');
+  const [validationError, setValidationError] = useState<undefined | string>();
+
+  const handleLinkChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const { value } = target;
+    setLink(value);
+  };
+
+  const submit = () => {
+    const { success, error } = validationSchema.safeParse(link);
+
+    if (success) {
+      // api call
+      return setValidationError(undefined);
+    }
+
+    const formattedError = error.issues[0].message;
+    setValidationError(formattedError);
+  };
+
+  useEffect(() => {
+    if (!link.trim()) {
+      return setValidationError(undefined);
+    }
+  }, [link]);
+
   return (
     <Flex
-      align={'center'}
-      justify="space-between"
-      gap="md"
+      direction={'column'}
       className={classNames(styles.widgetWrapper, className)}
     >
-      <Input
-        placeholder="Введите ссылку на вакансию"
-        icon={<IconExternalLink height={16}/>}
-        size="md"
-        classNames={{
-          input: styles.input,
-          wrapper: styles.inputWrapper,
-        }}
-      />
-      <Button
-        leftIcon={<IconAnalyze />}
-        className={styles.button}
+      <Flex
+        align={'center'}
+        justify="space-between"
+        gap="md"
+        className={styles.linkInput}
       >
+        <TextInput
+          placeholder="Введите ссылку на вакансию..."
+          error={validationError}
+          variant="unstyled"
+          icon={<IconExternalLink />}
+          onChange={handleLinkChange}
+          value={link}
+          size="xl"
+          classNames={{
+            root: styles.inputWrapper,
+            input: styles.input,
+            error: styles.errorMessage,
+          }}
+
+        />
+        <Button
+          leftIcon={<IconAnalyze />}
+          className={styles.button}
+          onClick={submit}
+        >
         Анализировать
-      </Button>
+        </Button>
+      </Flex>
+      <Divider my="sm" variant="dashed" />
     </Flex>
   );
 };
