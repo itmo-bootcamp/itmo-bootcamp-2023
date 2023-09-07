@@ -7,9 +7,10 @@ on:
 
 jobs:
   init:
+    runs-on: self-hosted
+    name: init pipeline
     outputs:
       frontend: ${{ steps.check_files.outputs.frontend }}
-    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
