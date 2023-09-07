@@ -1,0 +1,90 @@
+name: Deploy app to demo-stand
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  init:
+    outputs:
+      frontend: ${{ steps.check_files.outputs.frontend }}
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 2
+      - name: check modified files
+        id: check_files
+        run: |
+            git diff --name-only HEAD^ HEAD > files.txt
+            while IFS= read -r file; do
+              echo $file
+              if [[ $file == frontend/* ]]; then
+                echo "frontend will be rebuilt"
+                echo "::set-output name=frontend::true"
+              else
+                echo "file does not belong to any service"
+              fi
+            done < files.txt
+
+  push-to-registry:
+    name: Build and publish images to Docker Registry
+    runs-on: self-hosted
+    needs: init
+    env:
+      frontend_rep: ${{ secrets.DOCKERHUB_USERNAME }}/itmo-bootcamp-2023.frontend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Push frontend image
+        if: needs.init.outputs.frontend == 'true'
+        uses: docker/build-push-action@v4
+        with:
+          context: frontend
+          push: true
+          tags: ${{env.frontend_rep}}:latest
+          platforms: linux/x86_64
+  
+  create-env-config:
+    name: Copy secrets to env
+    runs-on: self-hosted
+    needs: push-to-registry
+    steps:
+      -
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_API_HOST: ${{ secrets.API_HOST }}
+          envkey_DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          file_name: .env
+          fail_on_empty: false
+
+  build-frontend:
+    needs: create-env-config
+    if: needs.init.outputs.frontend == 'true'
+    name: Build and publish frontend
+    runs-on: self-hosted
+    steps:
+      -
+        name: Pull service
+        run: docker compose pull
+      -
+        name: Build service
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml --env-file .env up frontend -d --force-recreate
+      -
+        name: Check service
+        run: docker ps -a

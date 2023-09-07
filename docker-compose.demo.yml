@@ -1,0 +1,5 @@
+version: "3.8"
+
+services:
+    frontend:
+        image: ${DOCKERHUB_USERNAME}/itmo-bootcamp-2023.frontend:latest
