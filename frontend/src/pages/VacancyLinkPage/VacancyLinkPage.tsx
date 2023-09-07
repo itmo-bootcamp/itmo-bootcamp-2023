@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import { Stack } from '@mantine/core';
 import { useStore } from 'store';
 import VacancyLinkInput from 'widgets/VacancyLinkInput/VacancyLinkInput';
@@ -10,12 +11,13 @@ import styles from './styles.scss';
 
 export const VacancyLinkPage = () => {
   const { setVacancyLink } = useStore();
+  const navigate = useNavigate();
 
-  const { mutate: sendLink, isLoading } = useSendLink();
+  const { mutateAsync: sendLink, isLoading } = useSendLink();
 
   const onLinkSubmit = (link: string) => {
     setVacancyLink(link);
-    sendLink(link);
+    sendLink(link).then(() => navigate('/skills'));
   };
 
   return (

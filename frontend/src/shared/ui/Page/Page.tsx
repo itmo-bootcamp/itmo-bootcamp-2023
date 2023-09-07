@@ -1,13 +1,15 @@
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import styles from './styles.scss';
 
 interface Props {
-    children: ReactNode;
+  children: ReactNode;
+  className?: string;
 }
 
-export const Page = ({ children }: Props) => {
+export const Page = ({ children, className }: Props) => {
   return (
-    <div className={styles.pageWrapper}>{children}</div>
+    <div className={classNames(styles.pageWrapper, className)}>{children}</div>
   );
 };
