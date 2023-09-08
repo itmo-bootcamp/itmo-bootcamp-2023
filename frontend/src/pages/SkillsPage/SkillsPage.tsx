@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Button, Chip, Flex, Notification, Slider, Stack, Text } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
@@ -22,6 +22,12 @@ export function SkillsPage () {
   const [skillsNumber, setSkillsNumber] = useState(2);
 
   const { mutateAsync: fetchCourses, isLoading } = useGetCourses();
+
+  useEffect(() => {
+    return () => {
+      setCheckedSkills([]);
+    };
+  }, []);
 
   if (!vacancyLink) {
     return <Navigate to="/" />;

@@ -21,8 +21,6 @@ export const useGetCourses = () => {
         return { skill, list };
       });
 
-      console.log(result);
-
       return setCourses(result);
     },
   });
