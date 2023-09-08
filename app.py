@@ -25,12 +25,27 @@ with open("data/id2link.json", "r") as file:
 print("SYSTEM LOADED!!!")
 
 
-def create_one(data):
+def create_one(data: dict) -> Response:
+    '''
+    Создает запись в бд
+
+    input: data: dict
+    output: response: Response
+
+    '''
+
     response = requests.post(skill_url, json=data)
     return response
 
 
-def read(skills_names):
+def read(skills_names: list) -> Response:
+    '''
+    Чтение из бд
+
+    input: data: dict
+    output: response: Response
+    '''
+
     params = '&'.join([f'name={name}' for name in skills_names])
     response = requests.get(skill_url + '?' + params)
     return response
@@ -42,13 +57,25 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 @app.route("/", methods=["GET"])
-def test():
+def test() -> dict:
+    '''
+    Проводит тест
+
+    input: None
+    output: dict
+    '''
     return {"Status": "Ok"}
 
 
 @app.route("/get_keywords", methods=["POST"], endpoint='get_keywords')
 @cross_origin()
-def get_keywords():
+def get_keywords() -> Response:
+    '''
+    Возвращает ключевые навыки
+
+    input: None
+    ouput: Response
+    '''
     link = json.loads(request.data)["link"]
     keywords = parser_hh(link)
 
@@ -57,7 +84,13 @@ def get_keywords():
 
 @app.route("/get_keywords_desc", methods=["POST"], endpoint='get_keywords_desc')
 @cross_origin()
-def get_keywords_desc():
+def get_keywords_desc() -> Response:
+    '''
+    Сортирует ключевые навыки по релевантности
+
+    input: None
+    output: Response
+    '''
     result = []
     data = json.loads(request.data)
     keywords = data["keywords"]
