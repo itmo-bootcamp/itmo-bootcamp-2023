@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navigate } from 'react-router';
-import { Chip, Flex, Stack, Text } from '@mantine/core';
+import { Button, Chip, Flex, Slider, Stack, Text } from '@mantine/core';
 import { useStore } from 'store';
 
 import { Page } from 'shared/ui';
@@ -15,11 +15,15 @@ export function SkillsPage () {
     setCheckedSkills,
   } = useStore();
 
+  const [skillsNumber, setSkillsNumber] = useState(2);
+
   if (!vacancyLink) {
     return <Navigate to="/" />;
   }
 
   const checkedSkillsIds = checkedSkills?.map(s => s.id) || [];
+  const skillsAreSelected = !!checkedSkillsIds.length;
+  const canGenerate = skillsNumber && skillsAreSelected;
 
   const handleSkillCheck = (skillId: Id) => {
     const shouldRemove = checkedSkillsIds.includes(skillId);
@@ -39,26 +43,48 @@ export function SkillsPage () {
 
   return (
     <Page className={styles.skillsPage}>
-      <Stack spacing="lg">
-        <Text align="center" fz="lg">Выберите навыки,<br /> которыми хотите овладеть в первую очередь</Text>
-        <Flex
-          className={styles.skills}
-          gap="sm"
-          align="center"
-          wrap="wrap"
-          justify="center"
-        >
-          {skillList?.map(skill => <Chip
-            variant="light"
-            key={skill.id}
-            size="lg"
-            checked={checkedSkillsIds.includes(skill.id)}
-            onChange={handleSkillCheck.bind({}, skill.id)}
+      <Stack spacing="36px">
+        <Stack spacing="lg">
+          <Text align="center" fz="lg">Выберите навыки,<br /> которыми хотите овладеть в первую очередь</Text>
+          <Flex
+            className={styles.skills}
+            gap="sm"
+            align="center"
+            wrap="wrap"
+            justify="center"
           >
-            {skill.name}
-          </Chip>,
-          )}
-        </Flex>
+            {skillList?.map(skill => <Chip
+              variant="light"
+              key={skill.id}
+              size="lg"
+              checked={checkedSkillsIds.includes(skill.id)}
+              onChange={handleSkillCheck.bind({}, skill.id)}
+            >
+              {skill.name}
+            </Chip>,
+            )}
+          </Flex>
+        </Stack>
+        <Stack spacing="lg">
+          <Text align="center" fz="lg">Выберите количество курсов для освоения</Text>
+          <Slider
+            disabled={!skillsAreSelected}
+            marks={[
+              { value: 1, label: '1' },
+              { value: 2, label: '2' },
+              { value: 3, label: '3' },
+            ]}
+            value={skillsNumber}
+            max={3}
+            min={1}
+            onChange={setSkillsNumber}
+          />
+        </Stack>
+        <Button
+          size="lg"
+          disabled={!canGenerate}
+          className={styles.generateBtn}
+        >Сгенерировать курсы</Button>
       </Stack>
     </Page>
   );
