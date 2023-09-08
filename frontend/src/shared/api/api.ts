@@ -10,7 +10,7 @@ export type GetSkillsResult = {
   title: string;
 }
 
-const API_HOST = 'https://876e-62-217-186-209.ngrok.io/';
+const API_HOST = 'https://0a78-62-217-186-209.ngrok.io/';
 
 export const sendLink = (link: string) => {
   return fetch(API_HOST + API_PATH.SEND_LINK, {
