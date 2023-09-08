@@ -47,7 +47,7 @@ export function SkillsPage () {
   };
 
   const submitCourses = () => {
-    fetchCourses({ num: skillsNumber, skills: checkedSkills })
+    fetchCourses({ num_courses: skillsNumber, keywords: checkedSkills })
       .then(() => navigate('/courses'));
   };
 
@@ -57,7 +57,7 @@ export function SkillsPage () {
         {
           vacancyResult && <Notification
             icon={<IconCheck size="1.1rem"/>}
-            title={vacancyResult.name}
+            title={vacancyResult}
             color="teal"
             withCloseButton={false}>
             {vacancyLink}

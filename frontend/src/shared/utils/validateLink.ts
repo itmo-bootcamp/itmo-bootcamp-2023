@@ -5,8 +5,8 @@ const schema =
       invalid_type_error: 'Ссылка должна быть строкой',
     })
       .url({ message: 'Невалидная ссылка' })
-      .includes('https://hh.ru', {
-        message: 'Адрес должен начинаться с https://hh.ru',
+      .includes('https://', {
+        message: 'Адрес должен начинаться с https://',
       });
 
 const validateLink = (link: string) => {
