@@ -1,3 +1,5 @@
+import { Skill } from 'domain/skills';
+
 export const API_PATH = {
   SEND_LINK:  'api/link',
   GET_COURSES: 'api/courses',
@@ -10,5 +12,19 @@ export const sendLink = (link: string) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ link }),
+  }).then(res => res.json());
+};
+
+export type GetCoursesQuery = {
+  skills: Skill[];
+  num: number;
+}
+export const getCourses = ({ num,skills }: GetCoursesQuery) => {
+  return fetch(API_PATH.GET_COURSES, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ skills, num }),
   }).then(res => res.json());
 };
