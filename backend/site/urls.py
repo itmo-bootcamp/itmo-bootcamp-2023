@@ -23,9 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/skill/', SkillAPIView.as_view()),
     path('api/v1/skills_list/', SkillsListAPIView.as_view()),
-    path('api/v1/course/', CourseAPIView.as_view()),
-    path('api/v1/courses_list/', CoursesListAPIView.as_view()),
-    # path('api/v1/auth/', include('djoser.urls')),
-    # re_path(r'^auth/', include('djoser.urls.authtoken')),
 ]
 
