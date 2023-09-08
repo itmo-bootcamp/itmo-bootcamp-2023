@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModel, AutoTokenizer, AutoConfig
 
+
 class MeanPooling(torch.nn.Module):
     def __init__(self):
         super(MeanPooling, self).__init__()
@@ -31,17 +32,9 @@ class Embedder(torch.nn.Module):
             inputs, padding=True, truncation=True, max_length=self.max_len, return_tensors='pt')
         encoded_input = encoded_input.to(next(self.parameters()).device)
 
-        model_output = self.model(**encoded_input)
-        sentence_embeddings = self.pool(
-            model_output[0], encoded_input['attention_mask'])
+        with torch.no_grad():
+            model_output = self.model(**encoded_input)
+            sentence_embeddings = self.pool(
+                model_output[0], encoded_input['attention_mask'])
 
-        return sentence_embeddings
-
-model_name = "ai-forever/sbert_large_nlu_ru"
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-embedder = Embedder(model_name)
-embedder = embedder.to(device)
-
-embedding = embedder.get_embedding(["Привет, как дела?"])
-print(embedding)
+        return sentence_embeddings.cpu().numpy()
