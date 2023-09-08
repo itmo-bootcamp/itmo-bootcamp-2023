@@ -1,9 +1,15 @@
 import { Skill } from 'domain/skills';
+import { Vacancy } from 'domain/vacancy';
 
 export const API_PATH = {
   SEND_LINK:  'api/link',
   GET_COURSES: 'api/courses',
 } as const;
+
+export type GetSkillsResult = {
+  skills: Skill[];
+  vacancy: Vacancy;
+}
 
 export const sendLink = (link: string) => {
   return fetch(API_PATH.SEND_LINK, {

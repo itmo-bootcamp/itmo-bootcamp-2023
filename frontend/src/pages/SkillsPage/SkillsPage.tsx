@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Button, Chip, Flex, Slider, Stack, Text } from '@mantine/core';
+import { Button, Chip, Flex, Notification, Slider, Stack, Text } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import { useStore } from 'store';
 
 import { useGetCourses } from 'shared/api/hooks/useGetCourses';
@@ -13,6 +14,7 @@ export function SkillsPage () {
     skillList,
     checkedSkills,
     vacancyLink,
+    vacancyResult,
     setCheckedSkills,
   } = useStore();
 
@@ -52,6 +54,15 @@ export function SkillsPage () {
   return (
     <Page className={styles.skillsPage}>
       <Stack spacing="36px">
+        {
+          vacancyResult && <Notification
+            icon={<IconCheck size="1.1rem"/>}
+            title={vacancyResult.name}
+            color="teal"
+            withCloseButton={false}>
+            {vacancyLink}
+          </Notification>
+        }
         <Stack spacing="lg">
           <Text align="center" fz="lg">Выберите навыки,<br /> которыми хотите овладеть в первую очередь</Text>
           <Flex

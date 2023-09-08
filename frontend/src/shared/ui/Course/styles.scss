@@ -1,0 +1,17 @@
+.course {
+    background-color: $secondary-background;
+    color: $primary-text;
+    padding: 12px;
+    border-radius: 8px;
+    max-width: 300px;
+}
+
+.description {
+    min-height: 100px;
+    max-height: 150px;
+    overflow: auto;
+}
+
+.description::-webkit-scrollbar {
+    display: none;
+}
