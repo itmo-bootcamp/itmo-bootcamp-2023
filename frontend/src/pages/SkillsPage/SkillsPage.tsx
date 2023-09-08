@@ -62,14 +62,15 @@ export function SkillsPage () {
       <Stack spacing="36px">
         {
           vacancyResult && <Notification
-            icon={<IconCheck size="1.1rem"/>}
+            icon={<IconCheck size="1.1rem" />}
+            className={styles.notification}
             title={vacancyResult}
             color="teal"
             withCloseButton={false}>
             {vacancyLink}
           </Notification>
         }
-        <Stack spacing="lg">
+        <Stack spacing="lg" align="center">
           <Text align="center" fz="lg">Выберите навыки,<br /> которыми хотите овладеть в первую очередь</Text>
           <Flex
             className={styles.skills}
