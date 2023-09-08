@@ -3,7 +3,12 @@
     color: $primary-text;
     padding: 12px;
     border-radius: 8px;
-    max-width: 300px;
+    width: 300px;
+}
+
+.title {
+    height: 60px;
+    overflow: auto;
 }
 
 .description {

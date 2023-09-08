@@ -7,9 +7,9 @@ export const useSendLink = () => {
   const { setSkillList, setVacancyResult } = useStore();
   return useMutation<GetSkillsResult, unknown, string>(sendLink, {
     onSuccess: (data) => {
-      const { skills, vacancy } = data;
-      setSkillList(skills);
-      setVacancyResult(vacancy);
+      const { Skills, title } = data;
+      setSkillList(Skills);
+      setVacancyResult(`Вакансия:  ${title}`);
 
     },
   });

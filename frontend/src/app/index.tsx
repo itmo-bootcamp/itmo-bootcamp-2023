@@ -8,9 +8,9 @@ import RouterPage from 'pages/RouterPage';
 const queryClient = new QueryClient();
 
 // Start the mocking conditionally.
-if (process.env.NODE_ENV === 'development') {
-  worker.start();
-}
+// if (process.env.NODE_ENV === 'development') {
+//   worker.start();
+// }
 
 const App = () => {
   return (

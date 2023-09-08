@@ -2,7 +2,14 @@ import { Skill } from './skills';
 
 export type Course = {
     title: string;
-    description: string;
     url?: string;
-    skills?: Skill[];
+}
+
+export type ApiCourse = Record<Skill, [
+    [string, string]
+]>
+
+export type CourseList = {
+    skill: string;
+    list: Course[];
 }

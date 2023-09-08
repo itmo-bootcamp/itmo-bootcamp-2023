@@ -1,21 +1,20 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { Course } from 'domain/courses';
+import { CourseList } from 'domain/courses';
 import { Skill } from 'domain/skills';
-import { Vacancy } from 'domain/vacancy';
 
 interface StoreState {
   vacancyLink: string;
   skillList: Skill[] | undefined;
   checkedSkills: Skill[];
-  courses: Course[];
-  vacancyResult: Vacancy | undefined;
+  courses: CourseList[];
+  vacancyResult: string | undefined;
   setVacancyLink: (vacancyLink: string) => void;
-  setVacancyResult: (vacancyResult: Vacancy) => void;
+  setVacancyResult: (vacancyResult: string) => void;
   setSkillList: (skillList: Skill[] | undefined) => void;
   setCheckedSkills: (skills: Skill[]) => void;
-  setCourses: (courses: Course[]) => void;
+  setCourses: (courses: CourseList[]) => void;
 }
 
 const useStore = create<StoreState>(
