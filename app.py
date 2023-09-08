@@ -1,4 +1,5 @@
 import json
+import requests
 
 import torch
 from flask import Flask, request, Response
@@ -9,6 +10,8 @@ from parser.parser_request import parser_hh
 from ml.open_ai import get_description
 from ml.get_embedding import Embedder
 
+
+skill_url = 'http://45.80.71.85:8000/api/v1/skill/'
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 embedder = Embedder("sentence-transformers/LaBSE").to(device)
@@ -22,12 +25,15 @@ with open("data/id2link.json", "r") as file:
 print("SYSTEM LOADED!!!")
 
 
-def get_emb(descs):
-    embeddings = embedder.get_embedding(list(descs.values()))
-    for i, desc in enumerate(descs.keys()):
-        descs[desc] = list(embeddings[i])
+def create_one(data):
+    response = requests.post(skill_url, json=data)
+    return response
 
-    return descs
+
+def read(skills_names):
+    params = '&'.join([f'name={name}' for name in skills_names])
+    response = requests.get(skill_url + '?' + params)
+    return response
 
 
 app = Flask(__name__)
@@ -58,10 +64,16 @@ def get_keywords_desc():
     num_courses = data["num_courses"]
     descs = {}
     for keyword in keywords:
-        keyword_desc = get_description(keyword)
-        descs[keyword] = keyword_desc.strip()
+        db_response = read([keyword]).json()
+        if db_response:
+            descs[keyword] = db_response[0]["vector"]
+        else:
+            keyword_desc = get_description(keyword)
+            embedding = embedder.get_embedding(
+                list(keyword_desc.strip()))[0].tolist()
+            descs[keyword] = embedding
+            create_one({"name": keyword, "vector": embedding})
 
-    descs = get_emb(descs)
     for keyword, vector in descs.items():
         tmp = {}
         search_ids = u.get_nns_by_vector(vector, num_courses)
