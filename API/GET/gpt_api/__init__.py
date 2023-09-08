@@ -1,6 +1,6 @@
-from .endpoints import gpt_answer
+from .endpoints import app
 
 
 __all__ = [
-    'get_gpt_answer'
+    'app'
 ]

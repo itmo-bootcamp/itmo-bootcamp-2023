@@ -1,2 +1,2 @@
-from . import encoder_api
-from . import gpt_api
+from .encoder_api import app
+from .gpt_api import app

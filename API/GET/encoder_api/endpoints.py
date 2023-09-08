@@ -1,4 +1,4 @@
-from app import app
+from loader import app
 from .annotations import TextGet
 
 

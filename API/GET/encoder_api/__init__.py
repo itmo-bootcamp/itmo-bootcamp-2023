@@ -1,6 +1,6 @@
-from .endpoints import text_to_vec
+from .endpoints import app
 
 
 __all__ = [
-    'text_to_vec'
+    'app'
 ]
