@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router';
-import { Button, Chip, Flex, Slider, Stack, Text } from '@mantine/core';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Button, Chip, Flex, Notification, Slider, Stack, Text } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import { useStore } from 'store';
 
+import { useGetCourses } from 'shared/api/hooks/useGetCourses';
 import { Page } from 'shared/ui';
 
 import styles from './styles.scss';
@@ -12,38 +14,55 @@ export function SkillsPage () {
     skillList,
     checkedSkills,
     vacancyLink,
+    vacancyResult,
     setCheckedSkills,
   } = useStore();
 
+  const navigate = useNavigate();
   const [skillsNumber, setSkillsNumber] = useState(2);
+
+  const { mutateAsync: fetchCourses, isLoading } = useGetCourses();
 
   if (!vacancyLink) {
     return <Navigate to="/" />;
   }
 
-  const checkedSkillsIds = checkedSkills?.map(s => s.id) || [];
-  const skillsAreSelected = !!checkedSkillsIds.length;
+  const skillsAreSelected = !!checkedSkills.length;
   const canGenerate = skillsNumber && skillsAreSelected;
 
-  const handleSkillCheck = (skillId: Id) => {
-    const shouldRemove = checkedSkillsIds.includes(skillId);
+  const handleSkillCheck = (skillId: string) => {
+    const shouldRemove = checkedSkills.includes(skillId);
 
     if (shouldRemove) {
-      setCheckedSkills(checkedSkills.filter(s => s.id !== skillId));
+      setCheckedSkills(checkedSkills.filter(s => s !== skillId));
       return;
     }
 
     // should add
-    const newSkill = skillList?.find(s => s.id === skillId);
+    const newSkill = skillList?.find(s => s === skillId);
 
     if (newSkill) {
       setCheckedSkills([...checkedSkills, newSkill]);
     }
   };
 
+  const submitCourses = () => {
+    fetchCourses({ num: skillsNumber, skills: checkedSkills })
+      .then(() => navigate('/courses'));
+  };
+
   return (
     <Page className={styles.skillsPage}>
       <Stack spacing="36px">
+        {
+          vacancyResult && <Notification
+            icon={<IconCheck size="1.1rem"/>}
+            title={vacancyResult.name}
+            color="teal"
+            withCloseButton={false}>
+            {vacancyLink}
+          </Notification>
+        }
         <Stack spacing="lg">
           <Text align="center" fz="lg">Выберите навыки,<br /> которыми хотите овладеть в первую очередь</Text>
           <Flex
@@ -55,12 +74,12 @@ export function SkillsPage () {
           >
             {skillList?.map(skill => <Chip
               variant="light"
-              key={skill.id}
+              key={skill}
               size="lg"
-              checked={checkedSkillsIds.includes(skill.id)}
-              onChange={handleSkillCheck.bind({}, skill.id)}
+              checked={checkedSkills.includes(skill)}
+              onChange={handleSkillCheck.bind({}, skill)}
             >
-              {skill.name}
+              {skill}
             </Chip>,
             )}
           </Flex>
@@ -84,7 +103,10 @@ export function SkillsPage () {
           size="lg"
           disabled={!canGenerate}
           className={styles.generateBtn}
-        >Сгенерировать курсы</Button>
+          loading={isLoading}
+          onClick={submitCourses}
+        >Сгенерировать курсы
+        </Button>
       </Stack>
     </Page>
   );

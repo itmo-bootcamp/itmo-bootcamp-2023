@@ -1,24 +1,15 @@
-import { Skill } from 'domain/skills';
+import { GetSkillsResult } from 'shared/api/api';
 
-export const MOCKED_SKILLS: Skill[] = [
-  {
-    id: 0,
-    name: 'Алгоритмы',
+export const MOCKED_SKILLS: GetSkillsResult = {
+  skills: [
+    'Алгоритмы',
+    'Soft Skills',
+    'System Design',
+    'Math',
+    'Calculus',
+  ],
+  vacancy: {
+    name: 'Frontend Engineer',
+    url: 'https://hh.ru',
   },
-  {
-    id: 1,
-    name: 'Soft Skills',
-  },
-  {
-    id: 2,
-    name: 'System Design',
-  },
-  {
-    id: 3,
-    name: 'Math',
-  },
-  {
-    id: 4,
-    name: 'Calculus',
-  },
-];
+};
