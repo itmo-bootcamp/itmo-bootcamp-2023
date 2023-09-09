@@ -51,7 +51,7 @@ Also, you can think about how it is more correct to ask a person “what do you 
     <img width="100%" src="images/architecture.jpg">
 </p>
 
-## Demo
+## Demo (video)
 
 <a href="https://youtu.be/lvJhPxJ9300" target="_blank">
  <img src="images/demo.png" alt="Watch the video" width="100%" height="100%"/>
