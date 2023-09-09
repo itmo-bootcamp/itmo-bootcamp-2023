@@ -59,7 +59,11 @@ Also, you can think about how it is more correct to ask a person “what do you 
 
 ## Future  Roadmap
 
-
+- [ ] Improve the skills search service from the resume by training the NER model.
+- [ ] Get the client's already acquired skills from his resume.
+- [ ] Expand the database of existing courses (more sites, more courses).
+- [ ] Improve the vector acquisition service by training the Encoder on a more specialized domain (description of courses and skills).
+- [ ] Give the client more information on each course (grades, description, study hours).
 
 ## Contributing
 Copy of the [`contributing.md`](https://github.com/e0xextazy/nlp_huawei_new2_task/blob/master/contributing.md).
