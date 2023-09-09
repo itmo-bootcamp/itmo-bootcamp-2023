@@ -15,6 +15,7 @@ class MeanPooling(torch.nn.Module):
         mean_embeddings = sum_embeddings / sum_mask
         return mean_embeddings
 
+
 class Embedder(torch.nn.Module):
     def __init__(self, path, max_len=512) -> None:
         super().__init__()

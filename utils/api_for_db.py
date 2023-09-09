@@ -62,5 +62,3 @@ resp = read(["skill_1", "skill_2"])
 
 print(resp.status_code)
 print(resp.json())
-
-

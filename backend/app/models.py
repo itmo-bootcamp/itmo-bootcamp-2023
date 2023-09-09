@@ -12,6 +12,3 @@ class Skill(models.Model):
         indexes = [
             models.Index(fields=['name'], name='skill_name_idx'),
         ]
-
-
-

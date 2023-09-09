@@ -24,4 +24,3 @@ urlpatterns = [
     path('api/v1/skill/', SkillAPIView.as_view()),
     path('api/v1/skills_list/', SkillsListAPIView.as_view()),
 ]
-

@@ -60,10 +60,11 @@ class SkillsListAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializers = [SkillSerializer(data=item) for item in request.data["data"]]
+        serializers = [SkillSerializer(data=item)
+                       for item in request.data["data"]]
         if all(serializer.is_valid() for serializer in serializers):
             instances = [serializer.save() for serializer in serializers]
             return Response(SkillSerializer(instances, many=True).data, status=status.HTTP_201_CREATED)
-        errors = [serializer.errors for serializer in serializers if not serializer.is_valid()]
+        errors = [
+            serializer.errors for serializer in serializers if not serializer.is_valid()]
         return Response(errors, status=status.HTTP_400_BAD_REQUEST)
-

@@ -66,7 +66,7 @@ Also, you can think about how it is more correct to ask a person “what do you 
 - [ ] Give the client more information on each course (grades, description, study hours).
 
 ## Contributing
-Copy of the [`contributing.md`](https://github.com/e0xextazy/nlp_huawei_new2_task/blob/master/contributing.md).
+Copy of the [`contributing.md`](https://github.com/itmo-bootcamp/itmo-bootcamp-2023/blob/main/contributing.md).
 
 ### Issue
 - If you see an open issue and are willing to do it, add yourself to the performers and write about how much time it will take to fix it. See the pull request module below.
