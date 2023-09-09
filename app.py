@@ -17,7 +17,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 embedder = Embedder("sentence-transformers/LaBSE").to(device)
 
 u = AnnoyIndex(768, 'angular')
-u.load('data/AnnoyIndex_16.ann')
+u.load('data/AnnoyIndex_128.ann')
 with open("data/id2name.json", "r") as file:
     id2name = json.load(file)
 with open("data/id2link.json", "r") as file:
@@ -80,7 +80,7 @@ def get_keywords_desc():
         tmp[keyword] = [(id2name[str(id)], id2link[str(id)])
                         for id in search_ids]
         result.append(tmp)
-
+    print(result)
     return Response(json.dumps(result, ensure_ascii=False).encode('utf8'), mimetype='application/json')
 
 
